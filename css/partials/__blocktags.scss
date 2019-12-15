@@ -1,0 +1,44 @@
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -mox-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+}
+*, * :after, * window.matchMedia :before {
+    box-sizing: border-box;
+}
+body {
+    font-size: 16px;
+    @include bodyType();
+    max-width: 100vw;
+    overflow-x: hidden;
+    background: black;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1 {
+    margin-bottom: 1.5rem;
+    @include displayType(1.5rem);
+}
+p {
+    font-size: 1rem;
+    line-height: 1rem;
+    margin-bottom: 1.5rem;
+    max-width: 30rem;
+    margin: auto;
+    @include bodyType();
+}
+
+ul {
+    list-style: none;
+}
+
+a,
+button {
+    @include displayType();
+}

@@ -1,0 +1,107 @@
+.throne {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: black;
+    perspective: 100vw;
+    pointer-events: none;
+    &__taker {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 25vh;
+        height: 25vh;
+        display: grid;
+        align-content: center;
+        &:before {
+            width: 100%;
+            height: 100%;
+            display: block;
+            @include housesType();
+            content:'';
+            color: white;
+            font-size: 20vh;
+            text-align: center;
+            z-index: 2;
+        }
+        will-change: transform;
+        transform: translateX(-50%) translateZ(100vh) translateY(100vh);
+        display: block;
+        z-index: 1;
+    }
+    &__seat {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        filter: brightness(0%);
+        width: 25vh;
+        will-change: filter, transform;
+        transform: translateX(-50%) translateZ(-250vh);
+    }
+    &:after {
+        content:'';
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        will-change: opacity, transform;
+        z-index: -1;
+        opacity: 0;
+        background: url('../img/throne-particles.gif') center center /cover no-repeat;
+        @include sm {
+            background: url('../img/throne-particles.gif') center center / contain no-repeat;
+        }
+        transform: translateZ(0);
+    }
+    &:before {
+        content:'';
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        will-change: filter, transform;
+        z-index: -1;
+        filter: brightness(0%);
+        background: url('../img/throne.jpg') center center /cover no-repeat;
+        transform: translateZ(0);
+    }
+    &--empty {
+        opacity: 0;
+        will-change: opacity;
+    }
+    &--taken {
+        opacity: 1;
+        @include transition(opacity 1s ease);
+        &:before { // bg
+            transform: translateZ(50vh);
+            transform-origin: bottom;
+            filter: brightness(100%);
+            @include transition(filter 3s ease,transform 3s ease);
+        }
+        &:after { // bg
+            transform: translateZ(50vh);
+            transform-origin: bottom;
+            opacity: 0.8;
+            @include transition(opacity 4s ease, transform 3s ease);
+            @include animation(fadeOutLights 4s 1 forwards 1s);
+        }
+        & .throne__taker {
+            opacity: 1;
+            transform: translateX(-50%) translateZ(0) translateY(0);
+            @include transition(all 2s ease);
+        }
+        & .throne__seat {
+            opacity: 1;
+            filter: brightness(100%);
+            transform: translateX(-50%) translateZ(0vh) translateY(-30%);
+            @include transition(filter 2s ease,transform 3s ease);
+        }
+    }
+}
+@include keyframes(fadeOutLights) {
+}

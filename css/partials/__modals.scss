@@ -1,0 +1,357 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    background: rgba(black,.9);
+    height: 100vh;
+    display: block;
+    z-index: 99;
+    color: tint($color--cards,60%);
+    &--welcome {
+        
+    }
+    &--play,
+    &--both,
+    &--1,
+    &--onecol,
+    &--2 { // Play style
+        overflow: hidden;
+        &:before {
+            content:'';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: -1;
+            height: 100%;
+        }
+        &:after {
+            content:'';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            z-index: -1;
+            height: 100%;
+        }
+    }
+    &__content {
+        align-content: center;
+        position: relative;
+        padding: 2rem;
+        max-height: 80vh;
+        display: grid;
+        grid-gap: 1rem;
+        grid-template-rows: auto auto 5rem;
+        grid-template-columns: 1fr 1fr;
+        @include lg {
+            grid-template-rows: auto auto 5rem 5rem;
+            grid-template-columns: 1fr;
+        }
+        @include sm {
+            min-height: 90vh;
+            max-height: 90vh;
+        }
+        & .btn {
+            @include lg {
+                grid-column: 1 / span 3;
+            }
+            @include xl {
+                grid-row-start: 3;
+            }
+            align-items: center;
+            display: grid;
+        }
+        & .btn--both {
+            @include xl {
+                grid-column-start: 2;
+            }
+        }
+        & * {
+            margin: 0;
+        }
+    }
+    &--1,
+    &--2,
+    &--both,
+    &--onecol {
+        .modal__content {
+            grid-template-rows: auto auto 5rem;
+            grid-template-columns: 1fr;
+        }
+    }
+    &--threerow {
+        & .modal__content {
+            grid-template-rows: auto 5rem 5rem;
+        }
+    }
+    &--error { // Error style
+        background: shade(red, 50%);
+    }
+    &__box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        background: rgba(shade($color--cards, 80%),.9);
+        min-height: 500px;
+        min-width: 500px;
+        max-width: 80vw;
+        border-radius: 0.3rem;
+        overflow: hidden;
+        @include sm {
+            top: 0;
+            transform: translate(-50%,0);
+            height: 100vh;
+        }
+        &--start {
+
+        }
+    }
+    &__tokens {
+        &:before,
+        &:after {
+            @include housesType();
+            color: white;
+            content:' ';
+            position: absolute;
+            pointer-events: none;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            display: grid;
+            align-content: center;
+        }
+        &:before {
+        }
+        &:after {
+            transform: scaleX(-1);
+        }
+        @include xl {
+            &:before,
+            &:after {
+                font-size: 15vw;
+            }
+            &:before {
+                left: 5vw;
+            }
+            &:after {
+                right: 5vw;
+            }
+        }
+        @include lg {
+            &:before,
+            &:after {
+                font-size: 15vw;
+                z-index: 999;
+            }
+            &:before {
+                left: 2vw;
+            }
+            &:after {
+                right: 2vw;
+            }
+        }
+        @include md {
+            &:before,
+            &:after {
+                font-size: 25vw;
+            }
+            &:before {
+                left: -15vw;
+            }
+            &:after {
+                right: -15vw;
+            }
+        }
+        @include sm {
+            &:before {
+                left: -5vw;
+                transform: translateY(-7vh);
+            }
+            &:after {
+                right: -5vw;
+                transform: scaleX(-1) translateY(-7vh);
+            }
+        }
+    }
+    &__h1 {
+        grid-column: 1 / span 3;
+        display: grid;
+        line-height: 2.5rem;
+        text-align: center;
+    }
+    &__vs {
+        &:before,
+        &:after {
+            background-color: shade($color--cards, 50%);
+            content: "";
+            display: inline-block;
+            height: 1px;
+            position: relative;
+            vertical-align: middle;
+            width: 50%;
+        }
+        &:before {
+            right: 0.5em;
+            margin-left: -50%;
+        }
+        
+        &:after {
+            left: 0.5em;
+            margin-right: -50%;
+        }
+    }
+    &__p {
+        grid-column: 1 / span 3;
+        line-height: 1.5rem;
+        margin-top: 2rem;
+        margin-bottom: 3rem;
+        max-width: 30rem;
+        text-align: center;
+    }
+    &__img {
+        grid-column: 1 / span 3;
+        max-width: 100%;
+        max-height: 300px;
+    }
+    &__range {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        height: 250px;
+        & input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 2rem;
+            border-radius: 1rem;  
+            @include linear-gradient(90deg, green, red);
+            outline: none;
+            opacity: 0.7;
+            & + * {
+                font-size: 1.5rem;
+            }
+            &::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 3rem;
+                height: 3rem;
+                border-radius: 50%; 
+                background: tint($color--cards,60%);
+                cursor: pointer;
+              }
+            &::-moz-range-thumb {
+                width: 3rem;
+                height: 3rem;
+                border-radius: 50%;
+                background: tint($color--cards,60%);
+                cursor: pointer;
+            }
+        }
+    }
+    &__scroller {
+        max-height: 400px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        grid-column: 1 / span 3;
+        background: #68573e;
+        text-align: center;
+        & * {
+            display: inline-block;
+        }
+    }
+    &__close {
+        position: absolute;
+        @include displayType();
+        color: rgba(tint($color--cards, 50%),.9);
+        top: 0;
+        right: 0;
+        padding: 1rem;
+        transform-origin: top right;
+        border-bottom-left-radius: 0.2rem;
+        z-index: 5;
+    }
+    &--replace {
+        &.modal--closed {
+            opacity: 0;
+            transform: scale(1.1);
+            @include transition(opacity .8s ease, transform 1.2s ease);
+            @include timing();
+            & .modal__box {
+                transform: translate(-50%,-50%) scale(1.1);
+                @include transition(transform .5s ease);
+                @include timing();
+            }
+        }
+        &.modal--open {
+            opacity: 1;
+            transform: scale(1);
+            @include transition(opacity .8s ease, transform 1.2s ease);
+            @include timing();
+            & .modal__box {
+                transform: translate(-50%,-50%) scale(1);
+                @include transition(transform .5s ease);
+                @include timing();
+            }
+        }
+    }
+    &:not(&--replace) {
+        &.modal--closed {
+            opacity: 0;
+            @include transition(opacity .8s ease);
+            @include timing();
+        }
+        &.modal--open {
+            opacity: 1;
+            @include transition(opacity .8s ease);
+            @include timing();
+        }
+    }
+    &--closed {
+        opacity: 0;
+        pointer-events: none;
+    }
+    &--open {
+    }
+}
+.modal--welcome {
+    &:before {
+        content:'';
+        left: 0;
+        top: 0;
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        background: url(../img/bg4.jpg) center center / cover no-repeat;
+    }
+}
+#welcomeModal {
+    & .modal__box {
+        transform: translate(-50%,-50%) scale(0.5);
+    }
+    &:before {
+        transform: scale(1.4);
+    }
+    & .modal__img {
+        transform: scale(0.4);
+    }
+}
+.loaded {
+    & #welcomeModal {
+        & .modal__box {
+            transform: translate(-50%,-50%) scale(1);
+            @include transition(transform 3s ease);
+            @include timing();
+        }
+        &:before {
+            transform: scale(1);
+            @include transition(transform 3s ease);
+            @include timing();
+        }
+        & .modal__img {
+            transform: scale(1);
+            @include transition(transform 2s ease .5s);
+            @include timing();
+        }
+    }
+}
