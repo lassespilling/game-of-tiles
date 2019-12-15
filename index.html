@@ -23,8 +23,11 @@
 <audio id="sfx" preload="auto">
     <source src="" type="audio/mpeg" />
 </audio>
+<audio id="sfxUi" preload="auto">
+    <source src="" type="audio/mpeg" />
+</audio>
 <div id="preloader" class="preloader"></div>
-<div id="sfxMenu" class="sound"><i id="sfxToggle" class="btn sound__sfx">Sfx</i><i id="musicToggle" class="btn sound__music">Music</i></div>
+<div id="sfxMenu" class="sound"><i id="sfxToggle" class="btn btn--sfx sound__sfx">Sfx</i><i id="musicToggle" class="btn btn--sfx sound__music">Music</i></div>
 
 <div id="cpuModal" class="modal modal--open modal--onecol t-center modal--welcome">
     <div class="modal__box">
@@ -34,7 +37,7 @@
                     <input type="range" min="1" max="2" value="1" class="cpu" id="cpuRange">
                     <div id="cpuValue"></div>
             </div>
-            <a class="btn" data-modal-close="cpuModal"> Start your Adventure</a>
+            <a class="btn btn--sfx" data-modal-close="cpuModal"> Start your Adventure</a>
         </div>
     </div>
 </div>
@@ -46,7 +49,7 @@
                     <input type="range" min="1" max="4" value="2" class="difficulty" id="difficultyRange">
                     <div id="difficultyValue"></div>
             </div>
-            <a class="btn" data-modal-close="difficultyModal"> Select playstyle</a>
+            <a class="btn btn--sfx" data-modal-close="difficultyModal"> Select playstyle</a>
         </div>
     </div>
 </div>
@@ -57,7 +60,7 @@
             <div class="modal__scroller">
                 <img id="instructionsImg" class="modal__img" width="auto" src="img/instructions-placeholder.jpg" alt="logo" width="100%">
             </div>
-            <a class="btn" data-modal-close="instructionsModal"> Adjust difficulty</a>
+            <a class="btn btn--sfx" data-modal-close="instructionsModal"> Adjust difficulty</a>
         </div>
     </div>
 </div>
@@ -66,8 +69,8 @@
         <div class="modal__content">
             <h1 class="modal__h1">Welcome to</h1>
             <img class="modal__img" src="img/logo.svg" alt="logo" width="100%">
-            <a class="btn" data-modal-close="welcomeModal" onclick="Instructions.showGif()"> Read instructions</a>
-            <a class="btn" data-modal-close="welcomeModal, instructionsModal"> Adjust difficulty</a>
+            <a class="btn btn--sfx" data-modal-close="welcomeModal" onclick="Instructions.showGif()"> Read instructions</a>
+            <a class="btn btn--sfx" data-modal-close="welcomeModal, instructionsModal"> Adjust difficulty</a>
         </div>
     </div>
 </div>
@@ -80,7 +83,7 @@
         <div id="charSelectionMessage" class="modal modal--closed modal--replace">
             <div class="modal__tokens"></div>
             <div class="modal__box modal__box--start">
-                <span class="modal__close btn--hover btn--close" data-modal-close="charSelectionMessage">X</span>
+                <span class="modal__close btn--hover btn--sfx btn--close" data-modal-close="charSelectionMessage">X</span>
                 <div class="modal__content">
                 </div>
             </div>
@@ -97,7 +100,7 @@
                     <div id="vs1" class="characters__vs characters__vs--1">-</div>
                     <div class="characters__vs characters__vs--text">VS</div>
                     <div id="vs2" class="characters__vs characters__vs--2">-</div>
-                    <a href="#" id="charSelectBtn" class="sfx characters__start"
+                    <a href="#" id="charSelectBtn" class="sfx characters__start btn--sfx"
                         data-modal-open="charSelectionMessage"><span>Confirm</span></a>
                 </div>
             </div>
@@ -172,7 +175,7 @@
             </div>
         </div>
         <div class="results__menu">
-            <a id="playAgainBtn" class="btn">Start new game</a>
+            <a id="playAgainBtn" class="btn btn--sfx">Start new game</a>
         </div>
     </section>
 </div>

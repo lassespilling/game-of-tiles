@@ -50,6 +50,27 @@ Sound.music.fadeIn = function() { // Fade in music function
     }
 }
 
+Sound.sfx.ui = {}
+Sound.sfx.btn = document.querySelectorAll('.btn--sfx');
+
+for(i=0;i<Sound.sfx.btn.length;i++) {
+    Sound.sfx.btn[i].addEventListener('click', function() {
+        Sound.sfx.click();
+        Sound.sfx.play();
+    })
+}
+Sound.sfx.selectP1 = document.getElementById('p1Slider');
+Sound.sfx.selectP2 = document.getElementById('p2Slider');
+
+Sound.sfx.selectP1.addEventListener('click', function() {
+    Sound.sfx.select();
+    Sound.sfx.play();
+});
+Sound.sfx.selectP2.addEventListener('click', function() {
+    Sound.sfx.select();
+    Sound.sfx.play();
+});
+
 // Sound effects
 Sound.sfx.play = function(fadeMusic = false) {
     if(Sound.sfx.enabled) {
@@ -79,7 +100,32 @@ Sound.sfx.toggle.addEventListener('click',function() { // Toggle sfx play on cli
         this.classList.remove('sound__sfx--disabled');
     }
 });
-
+Sound.sfx.diceroll = function() {
+    let randomSound = Math.floor(Math.random() * 6) + 1;
+    if(randomSound == 1) {
+        Sound.sfx.dicerollAudio = new Audio('sfx/ui/diceroll1.mp3');
+    } else if(randomSound == 2) {
+        Sound.sfx.dicerollAudio = new Audio('sfx/ui/diceroll2.mp3');
+    } else if(randomSound == 3) {
+        Sound.sfx.dicerollAudio = new Audio('sfx/ui/diceroll3.mp3');
+    } else if(randomSound == 4) {
+        Sound.sfx.dicerollAudio = new Audio('sfx/ui/diceroll4.mp3');
+    } else if(randomSound == 5) {
+        Sound.sfx.dicerollAudio = new Audio('sfx/ui/diceroll5.mp3');
+    } else if(randomSound == 6) {
+        Sound.sfx.dicerollAudio = new Audio('sfx/ui/diceroll6.mp3');
+    }
+    Sound.sfx.dicerollAudio.volume = 0.6;
+    Sound.sfx.dicerollAudio.play();
+}
+Sound.sfx.select = function() {
+    Sound.sfx.dom.src = 'sfx/ui/select.mp3';
+    Sound.sfx.volume = 0.4;
+}
+Sound.sfx.click = function() {
+    Sound.sfx.dom.src = 'sfx/ui/click.mp3';
+    Sound.sfx.volume = 0.7;
+}
 Sound.sfx.pageShift = function() {
     Sound.sfx.dom.src = 'sfx/ui/pageshift.mp3';
     Sound.sfx.volume = 0.7;
@@ -359,6 +405,7 @@ Dice.btn = document.getElementById('rollDiceBtn');
 Dice.theDice = document.getElementById('dice');
 Dice.roller = document.getElementById('roller');
 Dice.roll = function () {
+    Sound.sfx.diceroll();
     Dice.roller.style.transform = 'translateY(' + (Math.floor(Math.random() * 20) + 1) + 'vh)' + ' rotate(' + (Math.floor(Math.random() * 360) - 360) + 'deg)' + ' translateX(' + (Math.floor(Math.random() * 10) + 1) + 'vw)';
 };
 Dice.rolled;
@@ -735,6 +782,8 @@ Modal.sameChar = function () {
     Modal.choiceBtn.setAttribute('data-modal-close', 'charSelectionMessage');
     Modal.choiceBtn.addEventListener('click', function (e) {
         Modal.hide('charSelectionMessage');
+        Sound.sfx.click();
+        Sound.sfx.play();
         e.stopPropagation();
     });
     // Append elements
@@ -766,6 +815,8 @@ Modal.missingChar = function (missing) {
         Modal.choiceBtn.setAttribute('data-modal-close', 'charSelectionMessage');
         Modal.choiceBtn.addEventListener('click', function (e) {
             Modal.hide('charSelectionMessage');
+            Sound.sfx.click();
+            Sound.sfx.play();
             e.stopPropagation();
         });
         // Append elements
@@ -796,6 +847,8 @@ Modal.missingChar = function (missing) {
         Modal.choiceBtn.setAttribute('data-modal-close', 'charSelectionMessage');
         Modal.choiceBtn.addEventListener('click', function (e) {
             Modal.hide('charSelectionMessage');
+            Sound.sfx.click();
+            Sound.sfx.play();
             e.stopPropagation();
         });
         // Append elements
@@ -820,6 +873,8 @@ Modal.missingChar = function (missing) {
         Modal.choiceBtn.setAttribute('data-modal-close', 'charSelectionMessage');
         Modal.choiceBtn.addEventListener('click', function (e) {
             Modal.hide('charSelectionMessage');
+            Sound.sfx.click();
+            Sound.sfx.play();
             e.stopPropagation();
         });
         // Append elements
@@ -839,6 +894,7 @@ Modal.startGame = function () {
     Modal.paragraph.classList.add('modal__p');
     Modal.choiceBtn.classList.add('btn');
     Modal.actionBtn.classList.add('btn');
+    Modal.choiceBtn.classList.add('btn--sfx');
     if(document.getElementById('charSelectionMessage').classList.contains('modal--2')) {
         document.getElementById('charSelectionMessage').classList.remove('modal--2');
     } else if(document.getElementById('charSelectionMessage').classList.contains('modal--1')) {
@@ -862,7 +918,7 @@ Modal.startGame = function () {
     Modal.actionBtn.classList.add('btn--both');
     Modal.choiceBtn.addEventListener('click', function (e) {
         Modal.hide('charSelectionMessage');
-        Sound.sfx.pageShift();
+        Sound.sfx.click();
         Sound.sfx.play();
         e.stopPropagation();
     });
