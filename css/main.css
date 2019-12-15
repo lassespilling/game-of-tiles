@@ -322,6 +322,10 @@ button {
       width: 100%;
       z-index: -1;
       height: 100%; }
+  .modal--twocol .modal__scroller {
+    grid-column: 1 / span 3; }
+  .modal--twocol .modal__range {
+    grid-column: 1 / span 3; }
   .modal__content {
     align-content: center;
     position: relative;
@@ -457,9 +461,6 @@ button {
       width: 100%;
       height: 2rem;
       border-radius: 1rem;
-      background: green;
-      background: -webkit-linear-gradient(legacy-direction(90deg), green, red);
-      background: linear-gradient(90deg, green, red);
       outline: none;
       opacity: 0.7; }
       .modal__range input[type="range"] + * {
@@ -478,11 +479,22 @@ button {
         border-radius: 50%;
         background: #e2d0b6;
         cursor: pointer; }
+    .modal__range--difficulty input[type="range"] {
+      background: green;
+      background: -webkit-linear-gradient(legacy-direction(90deg), green, red);
+      background: linear-gradient(90deg, green, red); }
+    .modal__range--playstyle input[type="range"] {
+      background: cyan;
+      background: -webkit-linear-gradient(legacy-direction(90deg), cyan, orange);
+      background: linear-gradient(90deg, cyan, orange); }
+    .modal__range--playstyle [data-rangestyle="playstyle-1"] {
+      color: cyan; }
+    .modal__range--playstyle [data-rangestyle="playstyle-2"] {
+      color: orange; }
   .modal__scroller {
     max-height: 400px;
     overflow-y: scroll;
     overflow-x: hidden;
-    grid-column: 1 / span 3;
     background: #68573e;
     text-align: center; }
     .modal__scroller * {

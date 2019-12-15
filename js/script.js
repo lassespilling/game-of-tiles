@@ -179,7 +179,9 @@ if(localStorage.getItem('p2wins') == null){
 }
 
 // Variables - board
+
 const Game = {};
+Game.cpu = false;
 Game.page = document.getElementById('gamePage');
 Game.container = document.getElementById('gameContainer'); // Game container
 Game.menu = document.getElementById('gameMenu'); // Game top menu
@@ -336,6 +338,20 @@ Game.traps = { // All traps
 };
 Game.trapsArray = Object.values(Game.traps);
 Game.messageDuration = 800; // 1s
+
+Cpu = {};
+Cpu.range = document.getElementById('cpuRange');
+Cpu.value = document.getElementById('cpuValue');
+Cpu.value.innerHTML = `<span data-rangestyle="playstyle-1">Pass device</span><br>- Two players play against eachother, <br>passing the device when it is their turn.`;
+Cpu.range.oninput = function() {
+    if (Cpu.range.value == 1) {
+        Cpu.value.innerHTML = `<span data-rangestyle="playstyle-1">Pass device</span><br>- Two players play against eachother, <br>passing the device when it is their turn.`;
+        Game.cpu = false;
+    } else if (Cpu.range.value == 2) {
+        Cpu.value.innerHTML = `<span data-rangestyle="playstyle-2">Against CPU</span><br>- One player (you), takes on <br>a game against your own device.`;
+        Game.cpu = true;
+    }
+}
 
 // Variables - dice
 var Dice = {}; // Dice object
@@ -599,7 +615,15 @@ Cards.creator = function (characters, playerobject, playerid) {
                 Sound.music.play();
                 document.getElementById(player+'house').classList = '';
                 document.getElementById(player+'house').classList.add(player+'--'+house.toLowerCase());
-                playerobject.vs.innerHTML = `<span>`+playerobject.name+`</span>`; // Set vs name
+                if(Game.cpu == true) {
+                    if(playerid == 'p2') {
+                        playerobject.vs.innerHTML = `<span>`+playerobject.name+` (CPU) </span>`; // Set vs name
+                    } else {
+                        playerobject.vs.innerHTML = `<span>`+playerobject.name+`</span>`; // Set vs name
+                    }
+                } else {
+                    playerobject.vs.innerHTML = `<span>`+playerobject.name+`</span>`; // Set vs name
+                }
                 changeBtnStyle();
             });
         }
@@ -702,7 +726,11 @@ Modal.sameChar = function () {
     // Add content
     document.getElementById('charSelectionMessage').classList.add('modal--both');
     Modal.header.innerHTML = `A <span data-player='1'>house</span> divided against <span data-player='2'>itself</span> cannot stand`;
-    Modal.paragraph.innerHTML = 'You cannot both be: ' + `<span data-player='1'><strong>` + P2.name + '</strong></span>';
+    if(Game.cpu == true) {
+        Modal.paragraph.innerHTML = 'You cannot both be: ' + `<span data-player='1'><strong>` + P2.name + ' (CPU) </strong></span>';
+    } else {
+        Modal.paragraph.innerHTML = 'You cannot both be: ' + `<span data-player='1'><strong>` + P2.name + '</strong></span>';
+    }
     Modal.choiceBtn.textContent = 'Go back';
     Modal.choiceBtn.setAttribute('data-modal-close', 'charSelectionMessage');
     Modal.choiceBtn.addEventListener('click', function (e) {
@@ -821,7 +849,11 @@ Modal.startGame = function () {
     }
     document.getElementById('charSelectionMessage').classList.add('modal--play');
     // Add content
-    Modal.header.innerHTML = `<span data-player='1'>`+P1.name +`</span>`+ '<span class="modal__vs">VS</span> ' + `<span data-player='2'>`+P2.name+`</span>`;
+    if(Game.cpu == true) {
+        Modal.header.innerHTML = `<span data-player='1'>`+P1.name +`</span>`+ '<span class="modal__vs">VS</span> ' + `<span data-player='2'>`+P2.name+` (CPU)</span>`;
+    } else {
+        Modal.header.innerHTML = `<span data-player='1'>`+P1.name +`</span>`+ '<span class="modal__vs">VS</span> ' + `<span data-player='2'>`+P2.name+`</span>`;
+    }
 
     Modal.paragraph.innerHTML = 'Game is ready to start. <br>Press play game to start the game, <br>or press to switch characters.';
     Modal.choiceBtn.classList.add('btn');
@@ -945,6 +977,10 @@ for (i = 1; i <= 30; i++) {
 }
 
 Dice.btn.addEventListener('click', function (e) { // On click dice btn
+    Dice.diceroll();
+    e.stopPropagation;
+});
+Dice.diceroll = function() {
     if (Game.started && Game.waitTurn == false && Game.ended == false) {
         Dice.rolled = Math.floor(Math.random() * 6) + 1;
         if (P1.pos < 30 && P2.pos < 30) {
@@ -1022,9 +1058,7 @@ Dice.btn.addEventListener('click', function (e) { // On click dice btn
             }
         }
     }
-    e.stopPropagation;
-});
-
+}
 Game.start = function () {
     if (Game.started == false && Game.page.classList.contains('game--notstarted')) {
         Characters.page.classList.add('characters--picked');
@@ -1043,11 +1077,19 @@ Game.start = function () {
             Dice.theDice.setAttribute('data-player', '1');
         } else if (Player.message.isIt == '2') { // Message for player Two
             Player.message.content = document.createElement('h1');
-            Player.message.content.innerHTML = `<span data-player='2'>` + P2.name + `</span> goes first`; // Create label
+
+            if(Game.cpu == true) {
+                Player.message.content.innerHTML = `<span data-player='2'>` + P2.name + ` (CPU)</span> goes first`; // Create label
+            } else {
+                Player.message.content.innerHTML = `<span data-player='2'>` + P2.name + `</span> goes first`; // Create label
+            }
             Dice.btn.setAttribute('data-player', '2');
             Dice.theDice.setAttribute('data-player', '2');
             Game.messageContainer.appendChild(Player.message.content);
             Game.started = true; // Disable start btn
+            if(Game.cpu == true) {
+                Dice.diceroll();
+            }
         }
     }
 }
@@ -1062,7 +1104,15 @@ Game.movePiece = function (rolled, player, playerobject, reroll = false) {
         // * ---- IF playerobject HAS NOT YET WUN
         Game.slideInMessage(); // Show message transition
         Game.menu.classList.add('game__menu--hide'); // Grey overlay to show game is paused
-        Player.message.content.innerHTML = `<span data-player='`+player+`'>` + playerobject.name + `</span> rolls ` + rolled; // Player roll message
+        if(Game.cpu == true) {
+            if(playerobject == P2) {
+                Player.message.content.innerHTML = `<span data-player='`+player+`'>` + playerobject.name + ` (CPU)</span> rolls ` + rolled; // Player roll message
+            } else {
+                Player.message.content.innerHTML = `<span data-player='`+player+`'>` + playerobject.name + `</span> rolls ` + rolled; // Player roll message
+            }
+        } else {
+            Player.message.content.innerHTML = `<span data-player='`+player+`'>` + playerobject.name + `</span> rolls ` + rolled; // Player roll message
+        }
         Game.trapCheck(reroll,player,playerobject); // Check for traps, then check reroll
 
     } else if (playerobject.pos >= 30) {
@@ -1122,7 +1172,15 @@ Results.finish = function (winner) {
 Results.revealWinner = function (winnerName, winnerObject, winnerNumber, winnerString) { // Eg. P1.name, P1, 1, 'p1'
 
     // Set in-game message
-    Player.message.content.innerHTML = `<span data-player='`+winnerNumber+`'>` + winnerName + `</span> wins!`;
+    if(Game.cpu == true) {
+        if(winnerObject == P2) {
+            Player.message.content.innerHTML = `<span data-player='`+winnerNumber+`'>` + winnerName + ` (CPU)</span> wins!`;
+        } else {
+            Player.message.content.innerHTML = `<span data-player='`+winnerNumber+`'>` + winnerName + `</span> wins!`;
+        }
+    } else {
+        Player.message.content.innerHTML = `<span data-player='`+winnerNumber+`'>` + winnerName + `</span> wins!`;
+    }
     
     // Add player specific winner styling
     Results.winner.container.classList.add('results--'+winnerString);
@@ -1130,7 +1188,15 @@ Results.revealWinner = function (winnerName, winnerObject, winnerNumber, winnerS
     
     // Create heading
     Results.winner.message = document.createElement('h2'); // Highscore winner heading
-    Results.winner.message.innerHTML = `<span data-player='` + winnerNumber + `'>` + winnerName + `</span> wins!`; // Winner heading content
+    if(Game.cpu == true) {
+        if(winnerObject == P2) {
+            Results.winner.message.innerHTML = `<span data-player='` + winnerNumber + `'>` + winnerName + ` (CPU)</span> wins!`; // Winner heading content
+        } else {
+            Results.winner.message.innerHTML = `<span data-player='` + winnerNumber + `'>` + winnerName + `</span> wins!`; // Winner heading content
+        }
+    } else {
+        Results.winner.message.innerHTML = `<span data-player='` + winnerNumber + `'>` + winnerName + `</span> wins!`; // Winner heading content
+    }
     Results.winner.container.prepend(Results.winner.message);
 
     // Highscores - create elements
@@ -1210,7 +1276,15 @@ Results.revealLoser = function (loserName, loserObject, loserNumber, loserString
     
     // Create heading
     Results.loser.message = document.createElement('h2'); // Highscore loser heading
-    Results.loser.message.innerHTML = `<span data-player='` + loserNumber + `'>` + loserName + `</span> lost!`; // loser heading content
+    if(Game.cpu == true) {
+        if(loserObject == P2) {
+            Results.loser.message.innerHTML = `<span data-player='` + loserNumber + `'>` + loserName + ` (CPU)</span> lost!`; // loser heading content
+        } else {
+            Results.loser.message.innerHTML = `<span data-player='` + loserNumber + `'>` + loserName + `</span> lost!`; // loser heading content
+        }
+    } else {
+        Results.loser.message.innerHTML = `<span data-player='` + loserNumber + `'>` + loserName + `</span> lost!`; // loser heading content
+    }
     Results.loser.container.prepend(Results.loser.message);
 
     // Highscores - create elements
@@ -1345,7 +1419,15 @@ Game.trapRun = function(player, playerobject,trap) {
             Sound.sfx.dom.currentTime = 0;
             Sound.sfx.play(true);
         }
-        Player.message.content.innerHTML = `<span data-player='`+playerobject.num+`'>` + playerobject.name + ` </span>` + trap.friendlyMessage + trap.messageStyle + trap.friendlyBoost + '</span>' + ' tiles.'; // Player trap
+        if(Game.cpu == true) {
+            if(playerobject == P2) {
+                Player.message.content.innerHTML = `<span data-player='`+playerobject.num+`'>` + playerobject.name + ` (CPU) </span>` + trap.friendlyMessage + trap.messageStyle + trap.friendlyBoost + '</span>' + ' tiles.';
+            } else {
+                Player.message.content.innerHTML = `<span data-player='`+playerobject.num+`'>` + playerobject.name + ` </span>` + trap.friendlyMessage + trap.messageStyle + trap.friendlyBoost + '</span>' + ' tiles.';
+            }
+        } else {
+            Player.message.content.innerHTML = `<span data-player='`+playerobject.num+`'>` + playerobject.name + ` </span>` + trap.friendlyMessage + trap.messageStyle + trap.friendlyBoost + '</span>' + ' tiles.';
+        }
         trap.addition = trap.friendlyBoost;
 
     } else if (trap.friendlyTo !== playerobject.name){ // Penaltymessage
@@ -1356,7 +1438,15 @@ Game.trapRun = function(player, playerobject,trap) {
                 Sound.sfx.play(true);
             }
             trap.addition = Math.ceil(Math.random() * (trap.penaltyTo + trap.penaltyFrom)) - trap.penaltyFrom;
-            Player.message.content.innerHTML = `<span data-player='`+playerobject.num+`'>` + playerobject.name + ` </span>` + trap.message + trap.messageStyle + trap.addition + '</span>' + ' tiles.'; // Player trap
+            if(Game.cpu == true) {
+                if(playerobject == P2) {
+                    Player.message.content.innerHTML = `<span data-player='`+playerobject.num+`'>` + playerobject.name + ` (CPU) </span>` + trap.message + trap.messageStyle + trap.addition + '</span>' + ' tiles.'; // Player trap
+                } else {
+                    Player.message.content.innerHTML = `<span data-player='`+playerobject.num+`'>` + playerobject.name + ` </span>` + trap.message + trap.messageStyle + trap.addition + '</span>' + ' tiles.'; // Player trap
+                }
+            } else {
+                Player.message.content.innerHTML = `<span data-player='`+playerobject.num+`'>` + playerobject.name + ` </span>` + trap.message + trap.messageStyle + trap.addition + '</span>' + ' tiles.'; // Player trap
+            }
         } else if(trap.penalty == 'randomnegative') {
             if(trap.sfx !== undefined) {
                 Sound.sfx.dom.src = trap.sfx;
@@ -1364,7 +1454,15 @@ Game.trapRun = function(player, playerobject,trap) {
                 Sound.sfx.play(true);
             }
             trap.addition = Math.floor(Math.random() * Math.floor(trap.penaltyTo));
-            Player.message.content.innerHTML = `<span data-player='`+playerobject.num+`'>` + playerobject.name + ` </span>` + trap.message + trap.messageStyle + trap.addition + '</span>' + ' tiles.'; // Player trap
+            if(Game.cpu == true) {
+                if(playerobject == P2) {
+                    Player.message.content.innerHTML = `<span data-player='`+playerobject.num+`'>` + playerobject.name + ` (CPU)</span>` + trap.message + trap.messageStyle + trap.addition + '</span>' + ' tiles.'; // Player trap
+                } else {
+                    Player.message.content.innerHTML = `<span data-player='`+playerobject.num+`'>` + playerobject.name + ` </span>` + trap.message + trap.messageStyle + trap.addition + '</span>' + ' tiles.'; // Player trap
+                }
+            } else {
+                Player.message.content.innerHTML = `<span data-player='`+playerobject.num+`'>` + playerobject.name + ` </span>` + trap.message + trap.messageStyle + trap.addition + '</span>' + ' tiles.'; // Player trap
+            }
         }
     }
     setTimeout(function() {
@@ -1411,11 +1509,18 @@ Game.rerollCheck = function(reroll, player, delay = 0) {
                 Game.waitTurn = true; // Deactivate roll btn click for showing message
                 Game.menu.classList.add('game__menu--hide'); // Grey overlay to show game is paused
                 setTimeout(function () { // Delay to give time to view dice roll and message
-                    Player.message.content.innerHTML = `<span data-player='2'>` + P2.name + `'s</span>  turn`; // Player twos turn message
+                    if(Game.cpu == true) {
+                        Player.message.content.innerHTML = `<span data-player='2'>` + P2.name + `'s (CPU)</span> turn`; // Player twos turn message
+                    } else {
+                        Player.message.content.innerHTML = `<span data-player='2'>` + P2.name + `'s</span> turn`; // Player twos turn message
+                    }
                     Dice.btn.setAttribute('data-player', '2'); // Change btn colour to match player
                     Dice.theDice.setAttribute('data-player', '2'); // Change dice colour to match player
                     Game.menu.classList.remove('game__menu--hide'); // Remove grey overlay to show game is resumed
                     Game.waitTurn = false; // Reactivate roll btn click
+                    if(Game.cpu == true) {
+                        Dice.diceroll();
+                    }
                 }, Game.messageDuration);
             }
         } else if(player == 2) {
@@ -1426,16 +1531,23 @@ Game.rerollCheck = function(reroll, player, delay = 0) {
                 Game.waitTurn = true; // Deactivate roll btn click for showing message
                 Game.menu.classList.add('game__menu--hide'); // Grey overlay to show game is paused
                 setTimeout(function () { // Delay to give time to view dice roll and message
-                    Player.message.content.innerHTML = `<span data-player='2'>` + P2.name + `</span> gets to reroll!`; // Reroll player message
+                    if(Game.cpu == true) {
+                        Player.message.content.innerHTML = `<span data-player='2'>` + P2.name + ` (CPU)</span> gets to reroll!`; // Reroll player message
+                    } else {
+                        Player.message.content.innerHTML = `<span data-player='2'>` + P2.name + `</span> gets to reroll!`; // Reroll player message
+                    }
                     Game.menu.classList.remove('game__menu--hide'); // Remove grey overlay to show game is resumed
                     Game.waitTurn = false; // Reactivate roll btn click
+                    if(Game.cpu == true) {
+                        Dice.diceroll();
+                    }
                 }, Game.messageDuration);
             } else if(reroll == false) { 
                 // * -------- IF NO REROLL
                 Game.waitTurn = true; // Deactivate roll btn click for showing message
                 Game.menu.classList.add('game__menu--hide'); // Grey overlay to show game is paused
                 setTimeout(function () { // Delay to give time to view dice roll and message
-                    Player.message.content.innerHTML = `<span data-player='1'>` + P1.name + `'s</span>  turn`; // Player twos turn message
+                    Player.message.content.innerHTML = `<span data-player='1'>` + P1.name + `'s</span>  turn`; // Player ones turn message
                     Dice.btn.setAttribute('data-player', '1'); // Change btn colour to match player
                     Dice.theDice.setAttribute('data-player', '1'); // Change dice colour to match player
                     Game.menu.classList.remove('game__menu--hide'); // Remove grey overlay to show game is resumed
@@ -1448,6 +1560,7 @@ Game.rerollCheck = function(reroll, player, delay = 0) {
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
 Difficulty = {};
 Difficulty.range = document.getElementById('difficultyRange');
 Difficulty.value = document.getElementById('difficultyValue');
