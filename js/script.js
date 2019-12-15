@@ -1,6 +1,16 @@
-// Documentation ::
-// Test trap:
-// Game.trapRun('p1', P1, Game.traps.targaryen);
+/*  Debugging ::
+        Test a trap:
+            Game.trapRun('p1', P1, Game.traps.targaryen);
+
+        Disable all traps ::
+            Game.trapsActive = false;
+
+        All traps friendly ::
+            Game.trapsAreAllFriendly = true;
+
+        Toggle play against CPU ::
+            Game.cpu = true; or Game.cpu = false;
+*/
 
 // Audio object for sound effects
 const Sound = {};
