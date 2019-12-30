@@ -1,15 +1,15 @@
 .preloader {
     width: 100vw;
     height: 100vh;
-    z-index: 999999;
+    z-index: -1;
     position: fixed;
     opacity: 1;
     background: black;
     display: grid;
     align-content: center;
-    @include transition(all .5s ease 0.8s);
+    @include transition(all 0.5s ease 0.8s);
     &:before {
-        content:'Loading..';
+        content: "Loading..";
         position: fixed;
         text-align: center;
         top: 50%;
@@ -24,7 +24,7 @@
         color: white;
         z-index: 1;
         opacity: 1;
-        @include transition(all .3s ease 0.5s);
+        @include transition(all 0.3s ease 0.5s);
         @include animation(pulse 1s ease forwards infinite);
         @include keyframes(pulse) {
             0% {
@@ -36,13 +36,6 @@
             100% {
                 transform: translateY(-50%);
             }
-        }
-    }
-    &--hide {
-        opacity: 0;
-        pointer-events: none;
-        &:before {
-            opacity: 0;
         }
     }
 }

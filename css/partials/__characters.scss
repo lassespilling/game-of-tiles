@@ -1,11 +1,14 @@
 /* Characters page
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .characters {
-    background: url('../img/bg2.jpg') center center / cover no-repeat;
+    background: url("../img/bg2.jpg") center center / cover no-repeat;
     position: absolute;
     height: 100vh;
     width: 100vw;
-    & * { // Disable user select
+    max-width: 100vw;
+    overflow-x: hidden;
+    & * {
+        // Disable user select
         @include userSelect(none);
     }
     &__draginstruction {
@@ -78,9 +81,9 @@
         pointer-events: none;
     }
     &:before {
-        content:'';
+        content: "";
         position: absolute;
-        background: rgba(0,0,0,0.5);
+        background: rgba(0, 0, 0, 0.5);
         z-index: -1;
         width: 100vw;
         height: 100vh;
@@ -91,10 +94,11 @@
     }
     &--active &__slider:not(&__slider--active),
     &--active &__menu {
-        @include transition(all .2s ease .1s);
+        @include transition(all 0.2s ease 0.1s);
         @include timing();
     }
-    &__wrapper { // Center content
+    &__wrapper {
+        // Center content
         position: absolute;
         top: 50%;
         width: 100vw;
@@ -104,7 +108,7 @@
         overflow-x: scroll;
         white-space: nowrap;
         user-select: none;
-        @include transition(transform .5s ease .1s);
+        @include transition(transform 0.5s ease 0.1s);
         @include timing();
         transform: scale(1);
         position: relative;
@@ -134,11 +138,13 @@
             margin: auto;
         }
         &:after {
-            content:'';
+            content: "";
             position: absolute;
-            background: url('../img/torch-right.gif') center center / contain no-repeat;
+            background: url("../img/torch-right.gif") center center / contain
+                no-repeat;
             @include xl {
-                background: url('../img/torch-left.gif') center center / contain no-repeat;
+                background: url("../img/torch-left.gif") center center / contain
+                    no-repeat;
             }
             width: 150px;
             height: 130%;
@@ -149,11 +155,13 @@
             top: -15%;
         }
         &:before {
-            content:'';
+            content: "";
             position: absolute;
-            background: url('../img/torch-left.gif') center center / contain no-repeat;
+            background: url("../img/torch-left.gif") center center / contain
+                no-repeat;
             @include xl {
-                background: url('../img/torch-right.gif') center center / contain no-repeat;
+                background: url("../img/torch-right.gif") center center /
+                    contain no-repeat;
             }
             width: 150px;
             height: 130%;
@@ -170,12 +178,12 @@
             grid-template-columns: 2fr 1fr 2fr 2fr;
             line-height: $cardMenuHeight;
             @include xl {
-                height:$cardMenuHeight*2;
+                height: $cardMenuHeight * 2;
                 grid-template-columns: 1fr 3fr 2fr;
                 grid-template-rows: 1fr 1fr;
-                grid-template-areas: 
-                "VS vs1 start"
-                "VS vs2 start";
+                grid-template-areas:
+                    "VS vs1 start"
+                    "VS vs2 start";
                 position: relative;
                 background: shade($color--cards, 60%);
                 border-radius: 1rem;
@@ -183,17 +191,16 @@
             }
             @include lg {
                 grid-template-columns: 1fr auto 1fr;
-                grid-template-areas: 
-                "vs1 VS vs2 start";
+                grid-template-areas: "vs1 VS vs2 start";
             }
             @include sm {
-                height:$cardMenuHeight*2;
+                height: $cardMenuHeight * 2;
                 grid-template-columns: 1fr;
                 grid-template-rows: auto auto;
                 padding: 0 4vw;
-                grid-template-areas: 
-                "vs1"
-                "vs2";
+                grid-template-areas:
+                    "vs1"
+                    "vs2";
             }
         }
     }
@@ -266,7 +273,7 @@
             @include displayType();
             color: tint($color--cards, 70%);
             @include xl {
-                line-height: $cardMenuHeight*2;
+                line-height: $cardMenuHeight * 2;
             }
             @include sm {
                 position: relative;
@@ -291,7 +298,7 @@
                     right: 0.5em;
                     margin-left: -50%;
                 }
-                
+
                 &:after {
                     left: 0.5em;
                     margin-right: -50%;
@@ -326,11 +333,11 @@
         }
     }
     &__start {
-        @include transition(all .2s ease);
+        @include transition(all 0.2s ease);
         @include timing();
         text-decoration: none;
         color: tint($color--cards, 70%);
-        background: url('../img/bricks.jpg') center center / 15% repeat;
+        background: url("../img/ui/bricks.jpg") center center / 15% repeat;
         display: inline-block;
         border-radius: 1rem;
         filter: brightness(100%);
@@ -358,7 +365,7 @@
             pointer-events: none;
         }
         &:hover {
-            @include transition(all .2s ease);
+            @include transition(all 0.2s ease);
             @include timing();
             filter: brightness(130%);
             background-position: center center;
@@ -374,7 +381,7 @@
                 z-index: 1;
             }
             &:before {
-                content:'';
+                content: "";
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -383,7 +390,7 @@
                 height: 100%;
             }
             &:after {
-                content:'';
+                content: "";
                 position: absolute;
                 bottom: 0;
                 right: 0;
@@ -394,7 +401,10 @@
         }
         @include lg {
             &--bothselected {
-                @include animation(focus 2s ease infinite, revealFade 1s ease 0.3s 1 forwards);
+                @include animation(
+                    focus 2s ease infinite,
+                    revealFade 1s ease 0.3s 1 forwards
+                );
                 width: 60%;
                 pointer-events: all;
             }
@@ -428,8 +438,8 @@
 }
 .p1,
 .p2 {
-    input[type=radio] {
-        position:fixed;
+    input[type="radio"] {
+        position: fixed;
         opacity: 0;
     }
     &__radio:checked + label {
@@ -468,7 +478,7 @@
                 cursor: -webkit-grabbing;
             }
             left: 0;
-            background: rgba(shade($color--cards, 90%), .6);
+            background: rgba(shade($color--cards, 90%), 0.6);
             transform: scale(1);
             @include sm {
                 transform: scale(1);
@@ -509,25 +519,25 @@
     margin: $cardMargin $cardSpacing;
     border-radius: 1rem;
     padding: 1rem;
-    overflow:scroll;
+    overflow: scroll;
     border: 0.05rem solid tint($color--cards, 30%);
     & p:not(&__name) {
         display: block;
         width: 100%;
         display: grid;
-        grid-template-columns:min-content auto;
+        grid-template-columns: min-content auto;
         margin: 0.5rem 0;
     }
     & [data-type="label"] {
-        background: shade($color--cards,80%);
+        background: shade($color--cards, 80%);
         color: $color--cards;
         padding: 0.1rem 0.3rem;
         display: inline-block;
         font-weight: bold;
     }
     & [data-type="info"] {
-        border-bottom: 0.05rem dotted shade($color--cards,10%);
-        color: tint($color--cards,60%);
+        border-bottom: 0.05rem dotted shade($color--cards, 10%);
+        color: tint($color--cards, 60%);
         padding: 0.1rem 0.3rem;
         display: inline-block;
     }
@@ -538,9 +548,8 @@
         margin: 0 0 0.8rem 0;
         @include displayType();
         font-size: 0.8rem;
-        color: tint($color--cards,40%);
+        color: tint($color--cards, 40%);
     }
     &__gender {
-    
     }
 }

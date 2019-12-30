@@ -9,26 +9,26 @@ $p2Position: t1; // Start tile
 $color--cards: #b78a48;
 
 // Houses
-$color--stark: #AFCEC3;
-$color--mormont: #83D6A0;
-$color--greyjoy: #9999FF;
-$color--dondarrion: #C12EE5;
-$color--dayne: #AD87C6;
-$color--bolton: #D35F83;
-$color--martell: #F0852D;
-$color--targaryen: #D22721;
-$color--baratheon: #FFD000;
-$color--baelish: #7B915C;
+$color--stark: #afcec3;
+$color--mormont: #83d6a0;
+$color--greyjoy: #9999ff;
+$color--dondarrion: #c12ee5;
+$color--dayne: #ad87c6;
+$color--bolton: #d35f83;
+$color--martell: #f0852d;
+$color--targaryen: #d22721;
+$color--baratheon: #ffd000;
+$color--baelish: #7b915c;
 
 // Tiles - traps
 $color--nightking: cyan;
 $color--melisandre: magenta;
 
 // Typography
-$headingsType: 'got';
-$bodyType: 'IM Fell English';
-$uiType: 'IM Fell English';
-$housesType: 'houses' !important;
+$headingsType: "got";
+$bodyType: "IM Fell English";
+$uiType: "IM Fell English";
+$housesType: "houses" !important;
 
 // Buttons
 $play: green;
@@ -41,7 +41,7 @@ $throne: silver;
 
 /* Characters page (only used in characters partial)
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-$cardHeightValue: 30; 
+$cardHeightValue: 30;
 $cardMarginValue: 2;
 $cardSpacing: 0.5rem;
 $cardMargin: $cardMarginValue + vh;

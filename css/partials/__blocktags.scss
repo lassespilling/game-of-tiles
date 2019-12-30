@@ -5,20 +5,33 @@
     -mox-osx-font-smoothing: grayscale;
     margin: 0;
     padding: 0;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
 }
-*, * :after, * window.matchMedia :before {
+*,
+* :after,
+* window.matchMedia :before {
     box-sizing: border-box;
 }
 body {
     font-size: 16px;
     @include bodyType();
     max-width: 100vw;
-    overflow-x: hidden;
     background: black;
 }
 
 img {
-  max-width: 100%;
+    max-width: 100%;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
 }
 
 h1 {
@@ -41,4 +54,8 @@ ul {
 a,
 button {
     @include displayType();
+}
+#loadPage {
+    @include transition(opacity 1s ease);
+    @include timing();
 }

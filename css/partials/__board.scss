@@ -4,7 +4,7 @@
 .game {
     max-width: 100vw;
     max-height: 100vh;
-    background: url('../img/bg3.jpg') center center / cover no-repeat;
+    background: url("../img/bg3.jpg") center center / cover no-repeat;
     @include transition(all 0.5s ease);
     @include timing();
     top: 0;
@@ -18,7 +18,7 @@
     grid-template-areas: "b b b";
     &:before,
     &:after {
-        content:'';
+        content: "";
         background: center center / cover no-repeat;
         position: absolute;
         pointer-events: none;
@@ -138,11 +138,15 @@
         & h1 {
             @include uiType();
             display: inline-block;
-            color: tint($color--cards,60%);
+            color: tint($color--cards, 60%);
             font-size: 1.5rem;
             padding: 0.5rem 1rem;
             border-radius: 0.25rem;
             box-shadow: 0px 0px 5rem rgba(0, 0, 0, 0.2);
+            @include sm {
+                font-size: 1.1rem;
+                letter-spacing: 0 !important; // override blocktag default
+            }
         }
     }
 
@@ -153,15 +157,13 @@
     }
 
     &__tiles {
-        height: calc(100vh - 2rem);
-        top: 2rem;
+        height: 70vh;
+        width: 80vw;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
         position: relative;
         display: grid;
-        padding: 10vh 10vw;
-        grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: repeat(5, 1fr);
-        width: 100%;
-        margin: auto;
         grid-template-areas:
             "t25 t26 t27 t28 t29 t30"
             "t24 t23 t22 t21 t20 t19"
@@ -185,25 +187,28 @@
         }
     }
 
-    &__tile { // Tiles
-        box-shadow: inset 0px 0px 1px rgba(tint($color--cards, 30%), .8);
+    &__tile {
+        // Tiles
+        box-shadow: inset 0px 0px 1px rgba(tint($color--cards, 30%), 0.8);
         box-sizing: border-box;
-        color: rgba(tint($color--cards, 30%), .8);
+        color: rgba(tint($color--cards, 30%), 0.8);
         border-radius: 1rem;
         overflow: hidden;
-        width:90%;
+        width: 90%;
         height: 80%;
         @include tiles($from: 1, $to: 30);
 
-        &#t1 { // Start tile
-            background: rgba(shade($start, 50%), .6);
-            box-shadow: inset 0px 0px 1px rgba(tint($start, 30%), .8);
+        &#t1 {
+            // Start tile
+            background: rgba(shade($start, 50%), 0.6);
+            box-shadow: inset 0px 0px 1px rgba(tint($start, 30%), 0.8);
             color: $start;
         }
 
-        &#t30 { // Throne tile
-            background: rgba(shade($throne, 50%), .6);
-            box-shadow: inset 0px 0px 1px rgba(tint($throne, 30%), .8);
+        &#t30 {
+            // Throne tile
+            background: rgba(shade($throne, 50%), 0.6);
+            box-shadow: inset 0px 0px 1px rgba(tint($throne, 30%), 0.8);
             color: $throne;
 
             &:before {
@@ -223,8 +228,8 @@
             position: relative;
             &::before,
             &::after {
-                font-family: 'houses' !important;
-                @include transition(all .2s ease);
+                font-family: "houses" !important;
+                @include transition(all 0.2s ease);
                 @include timing();
                 font-size: 3rem;
                 display: inline-block;
@@ -248,7 +253,7 @@
                 &[data-tile="21"],
                 &[data-tile="22"],
                 &[data-tile="23"],
-                &[data-tile="24"],{
+                &[data-tile="24"] {
                     &:before,
                     &:after {
                         -webkit-transform: scaleX(-1);
@@ -441,7 +446,6 @@
         }
 
         &--two {
-
             @include transition(all 2s ease);
 
             &::before {
@@ -744,24 +748,25 @@
 .trap {
     @include displayType();
     &:before {
-        content:'';
+        content: "";
     }
     @include sm {
-        font-size: 0.6rem;
+        font-size: 0.5rem;
     }
 }
-[data-trap="nightking"] { // Text style for trap message
+[data-trap="nightking"] {
+    // Text style for trap message
     color: $color--nightking;
 }
-@include trap(dayne,$color--dayne, 'dayne.webp', 'Greatsword', 'dayne.jpg');
-@include trap(martell,$color--martell, 'martell.webp', 'The Sun', 'martell.jpg');
-@include trap(dondarrion,$color--dondarrion, 'dondarrion.webp', 'Forked Lightning');
-@include trap(baratheon,$color--baratheon, 'baratheon.webp', 'Black Stag', 'baratheon.jpg');
-@include trap(targaryen,$color--targaryen, 'targaryen.webp', 'Dragons', 'targaryen.jpg');
-@include trap(mormont,$color--mormont, 'mormont.webp', 'Bear island', 'mormont.jpg');
-@include trap(greyjoy,$color--greyjoy, 'greyjoy.webp', 'The Kraken', 'greyjoy.jpg');
-@include trap(baelish,$color--baelish, 'baelish.webp', 'Mockingbirds', 'baelish.jpg');
-@include trap(bolton,$color--bolton, 'bolton.webp', 'Dreadford', 'bolton.jpg');
-@include trap(stark,$color--stark, 'stark.webp', 'Wolfpack','stark.jpg');
-@include trap(melisandre,$color--melisandre, 'melisandre.webp', 'Melisandre');
-@include trap(nightking,$color--nightking, 'nightking.webp', 'Nightking','nightking.jpg');
+@include trap(dayne,$color--dayne,"dayne.gif","Greatsword","dayne.jpg");
+@include trap(martell,$color--martell,"martell.gif","The Sun","martell.jpg");
+@include trap(dondarrion,$color--dondarrion,"dondarrion.gif","Forked Lightning");
+@include trap(baratheon,$color--baratheon,"baratheon.gif","Black Stag","baratheon.jpg");
+@include trap(targaryen,$color--targaryen,"targaryen.gif","Dragons","targaryen.jpg");
+@include trap(mormont,$color--mormont,"mormont.gif","Bear island","mormont.jpg");
+@include trap(greyjoy,$color--greyjoy,"greyjoy.gif","The Kraken","greyjoy.jpg");
+@include trap(baelish,$color--baelish,"baelish.gif","Mockingbirds","baelish.jpg");
+@include trap(bolton,$color--bolton,"bolton.gif","Dreadford","bolton.jpg");
+@include trap(stark,$color--stark,"stark.gif","Wolfpack","stark.jpg");
+@include trap(melisandre,$color--melisandre,"melisandre.gif","Melisandre");
+@include trap(nightking,$color--nightking,"nightking.gif","Nightking","nightking.jpg");

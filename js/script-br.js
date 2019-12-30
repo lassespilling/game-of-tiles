@@ -56,9 +56,6 @@ Sound.music.play = function() {
         Sound.music.playing = true;
     }
 };
-Sound.music.dom.addEventListener('ended', function() {
-    Sound.music.play();
-})
 Sound.music.toggle.addEventListener("click", function() {
     if (Sound.music.enabled) {
         Sound.music.dom.pause();
@@ -281,7 +278,6 @@ Game.waitTurn = false;
 Game.started = false;
 Game.ended = false;
 Game.unecessaryInfo = false;
-Game.trapsAreAllEnemies = false;
 Game.traps = {
     // All traps
     dayne: {
@@ -289,7 +285,7 @@ Game.traps = {
         pos: 3, // Which tile the trap is on
         penalty: "randomnegative", // Random negative value
         penaltyTo: -1, // from -1 to -2
-        message: `tries to wield the <span data-trap="dayne">Greatsword of Dawn</span>, but gets injured, and steps back `,
+        message: `tries to wield the <span data-trap="dayne">Greatsword of Dawn</span>, <br>but gets injured, and steps back `,
         messageStyle: `<span data-trap="dayne">`,
         modclass: "--dayne",
         sfx: "sfx/traps/dayne.mp3",
@@ -297,16 +293,16 @@ Game.traps = {
         allies: 'Targaryen, Greyjoy, Martell',
         enemies: 'Mormont, Dondarrion, Baratheon, Bolton, Stark',
         nemesis: 'Baelish',
-        nemesisMessage: `met their nemesis: <span data-trap="dayne">Dayne House</span>, and flees `,
+        nemesisMessage: `met their nemesis: <span data-trap="dayne">Dayne House</span>, <br>and flees `,
         friendlyBoost: [4, 5, 7],
-        friendlyMessage: `wields the legendary <span data-trap="dayne">Greatsword of Dawn</span> and is rewarded with `
+        friendlyMessage: `wields the legendary <span data-trap="dayne">Greatsword of Dawn</span> <br>and is rewarded with `
     },
     martell: {
         // * Martell trap
         pos: 6, // Which tile the trap is on
         penalty: "randomnegative", // Random negative value
         penaltyTo: -3, // from -1 to -2
-        message: `is blinded by <span data-trap="martell">The Sun</span>,  trips and falls down `,
+        message: `is blinded by <span data-trap="martell">The Sun</span>, <br> trips and falls down `,
         messageStyle: `<span data-trap="martell">`,
         modclass: "--martell",
         sfx: "sfx/traps/martell.mp3",
@@ -314,16 +310,16 @@ Game.traps = {
         allies: 'Targaryen, Greyjoy, Dayne',
         enemies: 'Mormont, Baelish, Baratheon, Bolton, Stark',
         nemesis: 'Dondarrion',
-        nemesisMessage: `met their nemesis: <span data-trap="martell">The Martells</span>, and flees `,
+        nemesisMessage: `met their nemesis: <span data-trap="martell">The Martells</span>, <br>and flees `,
         friendlyBoost: [7, 9, 10],
-        friendlyMessage: `is filled with joy by <span data-trap="martell">The Sun</span> and prowdly walks `
+        friendlyMessage: `is filled with joy by <span data-trap="martell">The Sun</span> <br>and prowdly walks `
     },
     dondarrion: {
         // * Dondarrion trap
         pos: 8, // Which tile the trap is on
         penalty: "randomnegative", // Random negative value
         penaltyTo: -1, // from -1 to -7
-        message: `was struck by a <span data-trap="dondarrion">Forked Lightning</span>,  and falls `,
+        message: `was struck by a <span data-trap="dondarrion">Forked Lightning</span>, <br> and falls `,
         messageStyle: `<span data-trap="dondarrion">`,
         modclass: "--dondarrion",
         sfx: "sfx/traps/dondarrion.mp3", // Credits to: "Thunder, Very Close, Rain, A.wav" by InspectorJ (www.jshaw.co.uk) of Freesound.org"
@@ -331,16 +327,16 @@ Game.traps = {
         allies: 'Bolton, Baratheon',
         enemies: 'Mormont, Baelish, Greyjoy, Targaryen, Stark',
         nemesis: 'Martell',
-        nemesisMessage: `met their nemesis: <span data-trap="dondarrion">The Dondarrions</span>, and flees `,
+        nemesisMessage: `met their nemesis: <span data-trap="dondarrion">The Dondarrions</span>, <br>and flees `,
         friendlyBoost: [9, 10, 12],
-        friendlyMessage: `gets adrenaline by <span data-trap="dondarrion">Purple Lightning</span> and runs `
+        friendlyMessage: `gets adrenaline by <span data-trap="dondarrion">Purple Lightning</span> <br>and runs `
     },
     baratheon: {
         // * Baratheon trap
         pos: 11, // Which tile the trap is on
         penalty: "randomnegative", // Random negative value
         penaltyTo: -2, // from -1 to -10
-        message: `was startled by a <span data-trap="baratheon">Black Stag</span>, and jumps `,
+        message: `was startled by a <span data-trap="baratheon">Black Stag</span>, <br>and jumps `,
         messageStyle: `<span data-trap="baratheon">`,
         modclass: "--baratheon",
         sfx: "sfx/traps/baratheon.mp3",
@@ -348,16 +344,16 @@ Game.traps = {
         allies: 'Bolton, Dondarrion',
         enemies: 'Mormont, Baelish, GReyjoy, Stark, Martell',
         nemesis: 'Targaryen',
-        nemesisMessage: `met their nemesis: <span data-trap="baratheon">Joffrey Baratheon</span>, and flees `,
+        nemesisMessage: `met their nemesis: <span data-trap="baratheon">Joffrey Baratheon</span>, <br>and flees `,
         friendlyBoost: [12, 14, 15],
-        friendlyMessage: `puts a crown on the <span data-trap="baratheon">Stag</span> and it lets him ride `
+        friendlyMessage: `puts a crown on the <span data-trap="baratheon">Stag</span> <br>and it lets him ride `
     },
     targaryen: {
         // * Targaryen trap
         pos: 13, // Which tile the trap is on
         penalty: "randomnegative", // Random negative value
         penaltyTo: -3, // from -1 to -10
-        message: `was chased by <span data-trap="targaryen">Targaryen House</span>, and has to move back `,
+        message: `was chased by <span data-trap="targaryen">Targaryen House</span>, <br>and has to move back `,
         messageStyle: `<span data-trap="targaryen">`,
         modclass: "--targaryen",
         sfx: "sfx/traps/targaryen.mp3",
@@ -365,16 +361,16 @@ Game.traps = {
         allies: 'Martell, Greyjoy, Dayne',
         enemies: 'Mormont, Baelish, Dondarrion, Baratheon, Bolton',
         nemesis: 'Stark',
-        nemesisMessage: `met their nemesis: <span data-trap="targaryen">The Targaryens</span>, and flees `,
+        nemesisMessage: `met their nemesis: <span data-trap="targaryen">The Targaryens</span>, <br>and flees `,
         friendlyBoost: [14, 15, 18],
-        friendlyMessage: `is home with <span data-trap="targaryen">Targaryen House</span> and is boosted by `
+        friendlyMessage: `is home with <span data-trap="targaryen">Targaryen House</span> <br>and is boosted by `
     },
     mormont: {
         // * Mormont trap
         pos: 16, // Which tile the trap is on
         penalty: "randomnegative", // Random negative value
         penaltyTo: -4, // from -1 to -15
-        message: `was chased by <span data-trap="mormont">Bears</span>, and has to move back `,
+        message: `was chased by <span data-trap="mormont">Bears</span>, <br>and has to move back `,
         messageStyle: `<span data-trap="mormont">`,
         modclass: "--mormont",
         sfx: "sfx/traps/mormont.mp3",
@@ -382,16 +378,16 @@ Game.traps = {
         allies: 'Stark, Baelish',
         enemies: 'Dayne, Martell, Dondarrion, Baratheon, Bolton',
         nemesis: 'Greyjoy',
-        nemesisMessage: `met their nemesis: <span data-trap="mormont">The Mormonts</span>, and flees `,
+        nemesisMessage: `met their nemesis: <span data-trap="mormont">The Mormonts</span>, <br>and flees `,
         friendlyBoost: [18],
-        friendlyMessage: `feels at home at <span data-trap="mormont">Bear island</span> and rides a bear `
+        friendlyMessage: `feels at home at <span data-trap="mormont">Bear island</span> <br>and rides a bear `
     },
     greyjoy: {
         // * Greyjoy trap
         pos: 17, // Which tile the trap is on
         penalty: "randomnegative", // Random negative value
         penaltyTo: -5, // from -1 to -15
-        message: `gets attacked by <span data-trap="greyjoy">Kraken</span>,  and sinks `,
+        message: `gets attacked by <span data-trap="greyjoy">Kraken</span>, <br> and sinks `,
         messageStyle: `<span data-trap="greyjoy">`,
         modclass: "--greyjoy",
         sfx: "sfx/traps/greyjoy.mp3",
@@ -399,16 +395,16 @@ Game.traps = {
         allies: 'Martell, Targaryen',
         enemies: 'Baelish, Dondarrion, Baratheon, Bolton, Stark',
         nemesis: 'Mormont',
-        nemesisMessage: `met their nemesis: <span data-trap="greyjoy">The Greyjoys</span>, and flees `,
+        nemesisMessage: `met their nemesis: <span data-trap="greyjoy">The Greyjoys</span>, <br>and flees `,
         friendlyBoost: [18, 20, 21],
-        friendlyMessage: `is greeted by <span data-trap="greyjoy">Kraken</span>  as an ironborn, and swims `
+        friendlyMessage: `is greeted by <span data-trap="greyjoy">Kraken</span> <br> as an ironborn, and swims `
     },
     baelish: {
         // * Baelish trap
         pos: 22, // Which tile the trap is on
         penalty: "randomnegative", // Random negative value
         penaltyTo: -4, // from -1 to -21
-        message: `was distracted by <span data-trap="baelish">Mockingbirds</span>,  and falls `,
+        message: `was distracted by <span data-trap="baelish">Mockingbirds</span>, <br> and falls `,
         messageStyle: `<span data-trap="baelish">`,
         modclass: "--baelish",
         sfx: "sfx/traps/baelish.mp3",
@@ -416,16 +412,16 @@ Game.traps = {
         allies: 'Mormont, Stark',
         enemies: 'Greyjoy, Martell, Dondarrion, Baratheon, Bolton',
         nemesis: 'Dayne',
-        nemesisMessage: `met their nemesis: <span data-trap="baelish">Petyr Baelish</span>, and flees `,
+        nemesisMessage: `met their nemesis: <span data-trap="baelish">Petyr Baelish</span>, <br>and flees `,
         friendlyBoost: [23, 24, 26],
-        friendlyMessage: `is guided by <span data-trap="baelish">Mockingbirds</span>  through a shortcut of `
+        friendlyMessage: `is guided by <span data-trap="baelish">Mockingbirds</span> <br> through a shortcut of `
     },
     bolton: {
         // * Bolton trap
         pos: 25, // Which tile the trap is on
         penalty: "randomnegative", // Random negative value
         penaltyTo: -4, // from -1 to -24
-        message: `gets flayed at <span data-trap="bolton">Dreadfort</span>, and in awful pain stumbles `,
+        message: `gets flayed at <span data-trap="bolton">Dreadfort</span>, <br>and in awful pain stumbles `,
         messageStyle: `<span data-trap="bolton">`,
         modclass: "--bolton",
         sfx: "sfx/traps/bolton.mp3",
@@ -433,16 +429,16 @@ Game.traps = {
         allies: 'Baratheon, Dondarrion',
         enemies: 'Mormont, Baelish, Greyjoy, Targaryen, Martell',
         nemesis: 'Stark',
-        nemesisMessage: `met their nemesis: <span data-trap="bolton">The Boltons</span>, and flees `,
+        nemesisMessage: `met their nemesis: <span data-trap="bolton">The Boltons</span>, <br>and flees `,
         friendlyBoost: [28],
-        friendlyMessage: `gains bloodlust at <span data-trap="bolton">Dreadfort</span>,  sees a victim and chases `
+        friendlyMessage: `gains bloodlust at <span data-trap="bolton">Dreadfort</span>, <br> sees a victim and chases `
     },
     stark: {
         // * Stark trap
         pos: 27, // Which tile the trap is on
         penalty: "randomnegative", // Random negative value
         penaltyTo: -1, // from -1 to -26
-        message: `hears howling <span data-trap="stark">Wolves</span>,  and retreats `,
+        message: `hears howling <span data-trap="stark">Wolves</span>, <br> and retreats `,
         messageStyle: `<span data-trap="stark">`,
         modclass: "--stark",
         sfx: "sfx/traps/stark.mp3",
@@ -450,22 +446,22 @@ Game.traps = {
         allies: 'Mormont, Baelish',
         enemies: 'Dayne, Greyjoy, Martell, Dondarrion, Baratheon, Bolton',
         nemesis: 'Targaryen',
-        nemesisMessage: `met their nemesis: <span data-trap="stark">The Starks</span>, and flees `,
+        nemesisMessage: `met their nemesis: <span data-trap="stark">The Starks</span>, <br>and flees `,
         friendlyBoost: [28],
-        friendlyMessage: `uses a sled of <span data-trap="stark">Wolves</span>  to cross `
+        friendlyMessage: `uses a sled of <span data-trap="stark">Wolves</span> <br> to cross `
     },
     nightking: {
         // * Nightking trap
         pos: 29,
         penalty: "randomnegative", // Random negative value
         penaltyTo: -20, // from - 1 to - 18
-        message: `ran into the <span data-trap="nightking">Night King</span>, and has to run `,
+        message: `ran into the <span data-trap="nightking">Night King</span>, <br>and has to run `,
         messageStyle: `<span data-trap="nightking">`,
         modclass: "--nightking",
         friendlyTo: [''],
         friendlyBoost: [30],
         sfx: "sfx/traps/nightking.mp3",
-        friendlyMessage: `is bowed down to by the <span data-trap="nightking">Nightking</span>  and wins with `
+        friendlyMessage: `is bowed down to by the <span data-trap="nightking">Nightking</span> <br> and wins with `
     },
     melisandre: {
         // * Melisandre trap
@@ -473,13 +469,13 @@ Game.traps = {
         penalty: "random", // Random positive or negative number
         penaltyFrom: 18, // from negative
         penaltyTo: 7, // to positive
-        message: `was struck by <span data-trap="melisandre">Melisandre's</span> shadow magic. And escapes by `,
+        message: `was struck by <span data-trap="melisandre">Melisandre's</span> shadow magic. <br>And escapes by `,
         messageStyle: `<span data-trap="melisandre">`,
         modclass: "--melisandre",
-        sfx: "sfx/traps/melisandre.mp3",
         friendlyTo: [''],
-        friendlyBoost: [23, 24],
-        friendlyMessage: `is carried by <span data-trap="melisandre">Melisandre's</span> magic  and flies `,
+        sfx: "sfx/traps/melisandre.mp3",
+        friendlyMessage: `is carried by <span data-trap="melisandre">Melisandre's</span> magic <br> and flies `,
+        friendlyBoost: [23, 24]
     }
 };
 Game.trapsBackup = JSON.parse(JSON.stringify(Game.traps));
@@ -489,13 +485,13 @@ Game.messageDuration = 800; // 1s
 Cpu = {};
 Cpu.range = document.getElementById("cpuRange");
 Cpu.value = document.getElementById("cpuValue");
-Cpu.value.innerHTML = `<span data-rangestyle="playstyle-1">Pass device</span><br>- Two players play against eachother, passing the device when it is their turn.`;
+Cpu.value.innerHTML = `<span data-rangestyle="playstyle-1">Pass device</span><br>- Two players play against eachother, <br>passing the device when it is their turn.`;
 Cpu.range.oninput = function() {
     if (Cpu.range.value == 1) {
-        Cpu.value.innerHTML = `<span data-rangestyle="playstyle-1">Pass device</span><br>- Two players play against eachother, passing the device when it is their turn.`;
+        Cpu.value.innerHTML = `<span data-rangestyle="playstyle-1">Pass device</span><br>- Two players play against eachother, <br>passing the device when it is their turn.`;
         Game.cpu = false;
     } else if (Cpu.range.value == 2) {
-        Cpu.value.innerHTML = `<span data-rangestyle="playstyle-2">Against CPU</span><br>- One player (you), takes on a game against your own device.`;
+        Cpu.value.innerHTML = `<span data-rangestyle="playstyle-2">Against CPU</span><br>- One player (you), takes on <br>a game against your own device.`;
         Game.cpu = true;
     }
 };
@@ -2078,15 +2074,13 @@ Game.trapRun = function(player, playerobject, trap) {
     document.getElementById("sfxMenu").classList.add("sound--hidden");
     let trapAllies = trap.friendlyTo.sort().toString();
     let playerAllies = playerobject.allies.sort().toString();
-    if (trapAllies == playerAllies && Game.trapsAreAllEnemies == false || Game.trapsAreAllFriendly == true) {
+    if (trapAllies == playerAllies || Game.trapsAreAllFriendly == true) {
         console.log('friendly trap');
         // If friendly
         playerobject.totalBoosts++; // Increase total boosts count
         let index = Math.floor(Math.random() * trap.friendlyBoost.length - 1) + 1; // Add -1 for index 0
         playerobject.pos = trap.friendlyBoost[index];
-        console.log(index);
         let boost = trap.friendlyBoost[index] - trap.pos;
-        console.log(boost);
         if (trap.sfx !== undefined) {
             Sound.sfx.dom.src = trap.sfx;
             Sound.sfx.dom.currentTime = 0;
@@ -2102,7 +2096,7 @@ Game.trapRun = function(player, playerobject, trap) {
             Player.message.content.innerHTML="<span data-player='"+playerobject.num+"'>"+playerobject.name+" </span>"+trap.friendlyMessage+trap.messageStyle+boost+"</span> tiles.";
         }
         trap.addition = 0;
-    } else if (trapAllies !== playerAllies || Game.trapsAreAllEnemies == true) {
+    } else if (trapAllies !== playerAllies || Game.trapsAreAllFriendly == false) {
         console.log('unfriendly trap');
         // Penaltymessage
         playerobject.totalTraps++; // Increase total boosts count
@@ -2140,7 +2134,7 @@ Game.trapRun = function(player, playerobject, trap) {
                     Player.message.content.innerHTML="<span data-player='"+playerobject.num+"'>"+playerobject.name+" </span>"+trap.message+trap.messageStyle+trap.addition+"</span> tiles.";
                 }
             } else {
-                if(trap.nemesis && trap.nemesis.toLowerCase() == playerobject.house && Game.insaneMode == false) { // Double penalty if Nemesis
+                if(trap.nemesis.toLowerCase() == playerobject.house && Game.insaneMode == false) { // Double penalty if Nemesis
                     Player.message.content.innerHTML="<span data-player='"+playerobject.num+"'>"+playerobject.name+" </span>"+trap.nemesisMessage+trap.messageStyle+trap.addition+"</span> tiles.";
                     trap.addition *= 7;
                 } else {
@@ -2281,8 +2275,6 @@ Difficulty.refreshValues = function(element) {
     if (element.value == 1) {
         Difficulty.valueText.innerHTML =
             "Childlike<br>- All traps become your playmates.";
-            Difficulty.value = 'childlike';
-        Difficulty.insaneChildToggled = true;
     } else if (element.value == 2) {
         Difficulty.valueText.innerHTML = "Normal<br>- Beware of traps";
         Difficulty.value = 'normal';
@@ -2294,32 +2286,37 @@ Difficulty.refreshValues = function(element) {
         Difficulty.valueText.innerHTML =
             'Insane.<br>- All traps are the <span data-trap="nightking">Nightking</span>,<br> on steroids.';
         Difficulty.value = 'insane';
+        Difficulty.insaneChildToggled = true;
     }
 }
 Difficulty.range.oninput = function() {
     Difficulty.refreshValues(Difficulty.range)
 };
-// Difficulty.select.onchange = function() {
-//     Difficulty.refreshValues(Difficulty.select);
-// };
+Difficulty.select.onchange = function() {
+    Difficulty.refreshValues(Difficulty.select);
+};
 Difficulty.confirm = document.getElementById('difficultyConfirm');
 Difficulty.confirm.addEventListener('click', function() {
     Difficulty.adjust(Difficulty.value);
 })
 //
 // PLEASE EXCUSE THIS REPETITIVE CLUTTER OF CODE
-Game.insaneChildMode = false;
 Difficulty.adjust = function(value) {
     if (value == "childlike") {
         Game.trapsAreAllFriendly = true;
-        Game.childlikeMode = true;
-        Cards.clear();
-        Cards.creator(Cards.charArray, P1, "p1");
-        Cards.creator(Cards.charArray, P2, "p2");
+        if (Difficulty.insaneChildToggled == true) {
+            Game.insaneChildMode = true;
+            Cards.clear();
+            Cards.creator(Cards.charArray, P1, "p1");
+            Cards.creator(Cards.charArray, P2, "p2");
+        } else {
+            Game.childlikeMode = true;
+            Cards.clear();
+            Cards.creator(Cards.charArray, P1, "p1");
+            Cards.creator(Cards.charArray, P2, "p2");
+        }
     } else if (value == "normal") {
-        console.log('normal');
     } else if (value == "hard") {
-        console.log('hard');
         let multiplier = 4;
         Game.traps.dayne.penaltyTo *= multiplier;
         Game.traps.dayne.friendlyBoost = Game.traps.dayne.friendlyBoost.slice(0,1);
@@ -2359,124 +2356,101 @@ Difficulty.adjust = function(value) {
     } else if (value == "insane") {
         let steroids = -999;
         Game.insaneMode = true;
-        if(Difficulty.insaneChildToggled == false) {
-            Game.insaneChildMode = false;
-            Game.trapsAreAllFriendly = false;
-            Game.trapsAreAllEnemies = true;
-        } else if (Difficulty.insaneChildToggled == true) {
-            Game.insaneChildMode = true;
-            Game.trapsAreAllEnemies = false;
-            Game.trapsAreAllFriendly = true;
-        }
         Game.traps.dayne.penalty = "randomnegative";
         Game.traps.dayne.penaltyTo = steroids;
         Game.traps.dayne.messageStyle = `<span data-trap="nightking">`;
         Game.traps.dayne.modclass = "--nightking";
         Game.traps.dayne.sfx = "sfx/traps/nightking.mp3";
-        Game.traps.dayne.message = `is struck by the <span data-trap="nightking">Night King</span>, and flees `;
-        Game.traps.dayne.friendlyMessage = `is welcomed by <span data-trap="nightking">Nightking</span>  and hops along `;
+        Game.traps.dayne.message = `ran into the <span data-trap="nightking">Night King</span>, <br>and has to run `;
+        Game.traps.dayne.friendlyMessage = `is welcomed by <span data-trap="nightking">Nightking</span> <br> and hops along `;
 
         Game.traps.martell.penalty = "randomnegative";
         Game.traps.martell.penaltyTo = steroids;
         Game.traps.martell.messageStyle = `<span data-trap="nightking">`;
         Game.traps.martell.modclass = "--nightking";
         Game.traps.martell.sfx = "sfx/traps/nightking.mp3";
-        Game.traps.martell.message = `screams at the sight of the <span data-trap="nightking">Night King</span>, and falls `;
-        Game.traps.martell.friendlyMessage = `sees the nice <span data-trap="nightking">Nightking</span>  and flies `;
+        Game.traps.martell.message = `ran into the <span data-trap="nightking">Night King</span>, <br>and has to run `;
+        Game.traps.martell.friendlyMessage = `sees the nice <span data-trap="nightking">Nightking</span> <br> and flies `;
 
         Game.traps.dondarrion.penalty = "randomnegative";
         Game.traps.dondarrion.penaltyTo = steroids;
         Game.traps.dondarrion.messageStyle = `<span data-trap="nightking">`;
         Game.traps.dondarrion.modclass = "--nightking";
         Game.traps.dondarrion.sfx = "sfx/traps/nightking.mp3";
-        Game.traps.dondarrion.message = `is frozen by the <span data-trap="nightking">Night King</span>, and slips `;
-        Game.traps.dondarrion.friendlyMessage = `meets his uncle the <span data-trap="nightking">Nightking</span>  is gifted `;
+        Game.traps.dondarrion.message = `ran into the <span data-trap="nightking">Night King</span>, <br>and has to run `;
+        Game.traps.dondarrion.friendlyMessage = `meets his uncle the <span data-trap="nightking">Nightking</span> <br> is gifted `;
 
         Game.traps.baratheon.penalty = "randomnegative";
         Game.traps.baratheon.penaltyTo = steroids;
         Game.traps.baratheon.messageStyle = `<span data-trap="nightking">`;
         Game.traps.baratheon.modclass = "--nightking";
         Game.traps.baratheon.sfx = "sfx/traps/nightking.mp3";
-        Game.traps.baratheon.message = `sees the <span data-trap="nightking">Night King</span>, and runs `;
-        Game.traps.baratheon.friendlyMessage = `hugs Uncy <span data-trap="nightking">Nightkingy</span>  and jumps `;
+        Game.traps.baratheon.message = `ran into the <span data-trap="nightking">Night King</span>, <br>and has to run `;
+        Game.traps.baratheon.friendlyMessage = `hugs Uncy <span data-trap="nightking">Nightkingy</span> <br> and jumps `;
 
         Game.traps.targaryen.penalty = "randomnegative";
         Game.traps.targaryen.penaltyTo = steroids;
         Game.traps.targaryen.messageStyle = `<span data-trap="nightking">`;
         Game.traps.targaryen.modclass = "--nightking";
         Game.traps.targaryen.sfx = "sfx/traps/nightking.mp3";
-        Game.traps.targaryen.message = `gets hit by the <span data-trap="nightking">Night King</span>, and misses `;
-        Game.traps.targaryen.friendlyMessage = `kisses the <span data-trap="nightking">Nightking</span>  and blushes `;
+        Game.traps.targaryen.message = `ran into the <span data-trap="nightking">Night King</span>, <br>and has to run `;
+        Game.traps.targaryen.friendlyMessage = `kisses the <span data-trap="nightking">Nightking</span> <br> and blushes `;
 
         Game.traps.mormont.penalty = "randomnegative";
         Game.traps.mormont.penaltyTo = steroids;
         Game.traps.mormont.messageStyle = `<span data-trap="nightking">`;
         Game.traps.mormont.modclass = "--nightking";
         Game.traps.mormont.sfx = "sfx/traps/nightking.mp3";
-        Game.traps.mormont.message = `is taken by the <span data-trap="nightking">Night King</span>, and returns `;
-        Game.traps.mormont.friendlyMessage = `receives a Winterbike from the <span data-trap="nightking">Nightking</span>  and rides `;
+        Game.traps.mormont.message = `ran into the <span data-trap="nightking">Night King</span>, <br>and has to run `;
+        Game.traps.mormont.friendlyMessage = `receives a Winterbike from the <span data-trap="nightking">Nightking</span> <br> and rides `;
 
         Game.traps.greyjoy.penalty = "randomnegative";
         Game.traps.greyjoy.penaltyTo = steroids;
         Game.traps.greyjoy.messageStyle = `<span data-trap="nightking">`;
         Game.traps.greyjoy.modclass = "--nightking";
         Game.traps.greyjoy.sfx = "sfx/traps/nightking.mp3";
-        Game.traps.greyjoy.message = `is caught by the <span data-trap="nightking">Night King</span>, and freezes `;
-        Game.traps.greyjoy.friendlyMessage = `gets a nice cold slush from the <span data-trap="nightking">Nightking</span>  and burps `;
+        Game.traps.greyjoy.message = `ran into the <span data-trap="nightking">Night King</span>, <br>and has to run `;
+        Game.traps.greyjoy.friendlyMessage = `gets a nice cold slush from the <span data-trap="nightking">Nightking</span> <br> and burps `;
 
         Game.traps.baelish.penalty = "randomnegative";
         Game.traps.baelish.penaltyTo = steroids;
         Game.traps.baelish.messageStyle = `<span data-trap="nightking">`;
         Game.traps.baelish.modclass = "--nightking";
         Game.traps.baelish.sfx = "sfx/traps/nightking.mp3";
-        Game.traps.baelish.message = `hides from the <span data-trap="nightking">Night King</span>, and walks back`;
-        Game.traps.baelish.friendlyMessage = `is doing karaoke with the <span data-trap="nightking">Nightking</span>  and sings for `;
+        Game.traps.baelish.message = `ran into the <span data-trap="nightking">Night King</span>, <br>and has to run `;
+        Game.traps.baelish.friendlyMessage = `is doing karaoke with the <span data-trap="nightking">Nightking</span> <br> and sings for `;
 
         Game.traps.bolton.penalty = "randomnegative";
         Game.traps.bolton.penaltyTo = steroids;
         Game.traps.bolton.messageStyle = `<span data-trap="nightking">`;
         Game.traps.bolton.modclass = "--nightking";
         Game.traps.bolton.sfx = "sfx/traps/nightking.mp3";
-        Game.traps.bolton.message = `is in cover from the <span data-trap="nightking">Night King</span>, and sits still `;
-        Game.traps.bolton.friendlyMessage = `dances with the <span data-trap="nightking">Nightking</span>  and does a piruette for `;
+        Game.traps.bolton.message = `ran into the <span data-trap="nightking">Night King</span>, <br>and has to run `;
+        Game.traps.bolton.friendlyMessage = `dances with the <span data-trap="nightking">Nightking</span> <br> and does a piruette for `;
 
         Game.traps.stark.penalty = "randomnegative";
         Game.traps.stark.penaltyTo = steroids;
         Game.traps.stark.messageStyle = `<span data-trap="nightking">`;
         Game.traps.stark.modclass = "--nightking";
         Game.traps.stark.sfx = "sfx/traps/nightking.mp3";
-        Game.traps.stark.message = `leaps away from the <span data-trap="nightking">Night King</span>, and rolls down `;
-        Game.traps.stark.friendlyMessage = `spits out the <span data-trap="nightking">Nightking Cereal</span>  and smiles for `;
-
-        Game.traps.nightking.penalty = "randomnegative";
-        Game.traps.nightking.penaltyTo = steroids;
-        Game.traps.nightking.messageStyle = `<span data-trap="nightking">`;
-        Game.traps.nightking.modclass = "--nightking";
-        Game.traps.nightking.sfx = "sfx/traps/nightking.mp3";
-        Game.traps.nightking.message = `slips by the <span data-trap="nightking">Night King</span>, and cries for `;
-        Game.traps.nightking.friendlyMessage = `hugs and kisses <span data-trap="nightking">Nightkingsly</span> and sits for `;
+        Game.traps.stark.message = `ran into the <span data-trap="nightking">Night King</span>, <br>and has to run `;
+        Game.traps.stark.friendlyMessage = `spits out the <span data-trap="nightking">Nightking Cereal</span> <br> and smiles for `;
 
         Game.traps.melisandre.penalty = "randomnegative";
         Game.traps.melisandre.penaltyTo = steroids;
         Game.traps.melisandre.messageStyle = `<span data-trap="nightking">`;
         Game.traps.melisandre.modclass = "--nightking";
         Game.traps.melisandre.sfx = "sfx/traps/nightking.mp3";
-        Game.traps.melisandre.message = `ran into the <span data-trap="nightking">Night King</span>, and has to run `;
-        Game.traps.melisandre.friendlyMessage = `licks the <span data-trap="nightking">Nightking Cereal</span>  and is stuck to him for `;
+        Game.traps.melisandre.message = `ran into the <span data-trap="nightking">Night King</span>, <br>and has to run `;
+        Game.traps.melisandre.friendlyMessage = `licks the <span data-trap="nightking">Nightking Cereal</span> <br> and is stuck to him for `;
 
         // Reload traps
         Game.trapsReload();
 
-        if (Difficulty.insaneChildToggled == true) {
-            Cards.clear();
-            Cards.creator(Cards.charArray, P1, "p1");
-            Cards.creator(Cards.charArray, P2, "p2");
-        } else {
-            // Reload cards
-            Cards.clear();
-            Cards.creator(Cards.charArray, P1, "p1");
-            Cards.creator(Cards.charArray, P2, "p2");
-        }
+        // Reload cards
+        Cards.clear();
+        Cards.creator(Cards.charArray, P1, "p1");
+        Cards.creator(Cards.charArray, P2, "p2");
     }
 };
 Game.trapsReload = function() {
